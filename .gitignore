@@ -8,3 +8,6 @@
 bin/
 gen/
 local.properties
+
+# OS X
+*.DS_Store

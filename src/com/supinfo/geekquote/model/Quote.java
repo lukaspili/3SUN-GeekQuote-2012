@@ -2,6 +2,7 @@ package com.supinfo.geekquote.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Random;
 
 public class Quote implements Serializable {
 
@@ -12,6 +13,12 @@ public class Quote implements Serializable {
 	public Quote(String strQuote) {
 		this.strQuote = strQuote;
 		this.date = new Date();
+		this.rating = new Random().nextInt(5);
+	}
+	
+	@Override
+	public String toString() {
+		return strQuote;
 	}
 
 	public String getStrQuote() {

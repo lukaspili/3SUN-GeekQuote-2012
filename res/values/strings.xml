@@ -4,13 +4,4 @@
     <string name="hello">Hello World, QuoteListActivity!</string>
     <string name="app_name">GeekQuote</string>
 
-    <string-array name="quotes">
-        <item>Java is better than .NET</item>
-        <item>Java is better than Objective C</item>
-        <item>Java is better than Ruby</item>
-        <item>Java is better than C</item>
-        <item>Java is better than C++</item>
-        <item>Java est trop fort pour vous haha</item>
-    </string-array>
-
 </resources>
