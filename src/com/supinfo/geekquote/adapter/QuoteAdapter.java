@@ -7,6 +7,7 @@ import com.supinfo.geekquote.R;
 import com.supinfo.geekquote.model.Quote;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,10 @@ public class QuoteAdapter extends ArrayAdapter<Quote> {
 		
 		RatingBar ratingBar = (RatingBar) row.findViewById(R.id.rating_bar);
 		ratingBar.setRating(quote.getRating());
+		
+		if(position % 2 != 0) {
+			row.setBackgroundColor(Color.DKGRAY);
+		}
 		
 		return row;
 	}
