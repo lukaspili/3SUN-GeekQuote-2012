@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/vertical_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
+        android:orientation="horizontal">
+        
+        <EditText android:id="@+id/edit_text"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:hint="Type your quote here"/>
+        
+        <Button android:id="@+id/button"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="Add"/>
+        
+    </LinearLayout>
+    
 </LinearLayout>
