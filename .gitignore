@@ -1,0 +1,10 @@
+# Do not ignore eclipse files it's making easier to import for students
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+local.properties
