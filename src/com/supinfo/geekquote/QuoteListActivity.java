@@ -1,6 +1,7 @@
 package com.supinfo.geekquote;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,7 +27,7 @@ public class QuoteListActivity extends Activity {
 	
 	private ListView listView;
     
-	private ArrayList<Quote> quotes = new ArrayList<Quote>();
+	private ArrayList<Quote> quotes;
 	
 	private QuoteAdapter quoteAdapter;
 	
@@ -34,6 +35,12 @@ public class QuoteListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        if(savedInstanceState != null) {
+        	quotes = (ArrayList<Quote>) savedInstanceState.getSerializable("quotes");
+        } else {
+			quotes = new ArrayList<Quote>();
+		}
         
         button = (Button) findViewById(R.id.button);
         editText = (EditText) findViewById(R.id.edit_text);
@@ -106,4 +113,14 @@ public class QuoteListActivity extends Activity {
     		}
     	}
     }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    	outState.putSerializable("quotes", quotes);
+    	super.onSaveInstanceState(outState);
+    }
 }
+
+
+
+
