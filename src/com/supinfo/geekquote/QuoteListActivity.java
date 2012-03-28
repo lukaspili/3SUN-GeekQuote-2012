@@ -3,8 +3,11 @@ package com.supinfo.geekquote;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +18,8 @@ import com.supinfo.geekquote.adapter.QuoteAdapter;
 import com.supinfo.geekquote.model.Quote;
 
 public class QuoteListActivity extends Activity {
+	
+	private static final int QUOTE_ACTIVITY_REQUEST_CODE = 1;
 		
 	private Button button;
 	
@@ -60,6 +65,23 @@ public class QuoteListActivity extends Activity {
     private void initList() {
     	quoteAdapter = new QuoteAdapter(this, quotes);
     	listView.setAdapter(quoteAdapter);
+    	
+    	listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View row,
+					int position, long index) {
+				
+				Quote quote = quoteAdapter.getItem(position);
+				
+				Intent intent = new Intent(QuoteListActivity.this, QuoteActivity.class);
+				intent.putExtra("quote", quote);
+				intent.putExtra("quote_index", index);
+				
+				startActivityForResult(intent, QUOTE_ACTIVITY_REQUEST_CODE);
+			}
+		});
+    	
     }
     
     public void addQuote(String strQuote) {
