@@ -91,4 +91,20 @@ public class QuoteListActivity extends Activity {
     	
     	Toast.makeText(this, "Quote ajouté", 5000).show();
     }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	
+    	if(requestCode == QUOTE_ACTIVITY_REQUEST_CODE) {
+    		
+    		if(resultCode == RESULT_OK) {
+    			
+    			Quote quote = (Quote) data.getExtras().getSerializable("quote");
+    			long index = data.getExtras().getLong("quote_index");
+    			
+    			quotes.set((int) index, quote);
+    			quoteAdapter.notifyDataSetChanged();
+    		}
+    	}
+    }
 }

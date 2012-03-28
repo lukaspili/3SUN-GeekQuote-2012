@@ -44,7 +44,7 @@ public class QuoteActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				setResult(RESULT_OK);
+				setResult(RESULT_CANCELED);
 				finish();
 			}
 		});
@@ -53,8 +53,11 @@ public class QuoteActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+
+				quote.setRating((int) ratingBar.getRating());
+				getIntent().putExtra("quote", quote);
 				
-				setResult(RESULT_CANCELED);
+				setResult(RESULT_OK, getIntent());
 				finish();
 			}
 		});
