@@ -9,6 +9,10 @@ public class Quote implements Serializable {
 	private String strQuote;
 	private int rating;
 	private Date date;
+	
+	public Quote() {
+		
+	}
 
 	public Quote(String strQuote, int rating) {
 		this(null, strQuote, rating, new Date());

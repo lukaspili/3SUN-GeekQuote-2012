@@ -2,6 +2,7 @@ package com.supinfo.geekquote;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.supinfo.geekquote.adapter.QuoteAdapter;
 import com.supinfo.geekquote.dao.DatabaseHelper;
 import com.supinfo.geekquote.model.Quote;
+import com.supinfo.geekquote.task.GetQuotesTask;
+import com.supinfo.geekquote.task.PostQuoteTask;
 
 public class QuoteListActivity extends Activity {
 
@@ -48,31 +51,7 @@ public class QuoteListActivity extends Activity {
 			quotes = (ArrayList<Quote>) savedInstanceState
 					.getSerializable("quotes");
 		} else {
-
 			quotes = new ArrayList<Quote>();
-
-			SQLiteDatabase db = databaseHelper.getReadableDatabase();
-
-			String[] columns = { "id", "strquote", "rating", "creation_date" };
-			Cursor cursor = db.query("quotes", columns, null, null, null, null,
-					null);
-			
-			cursor.moveToFirst();
-
-			while (!cursor.isAfterLast()) {
-
-				Quote quote = new Quote(cursor.getLong(0), cursor.getString(1),
-						cursor.getInt(2), null);
-				
-				Date date = new Date(cursor.getLong(3));
-				quote.setDate(date);
-
-				quotes.add(quote);
-				
-				cursor.moveToNext();
-			}
-
-			db.close();
 		}
 
 		button = (Button) findViewById(R.id.button);
@@ -81,6 +60,8 @@ public class QuoteListActivity extends Activity {
 
 		initButton();
 		initList();
+		
+		new GetQuotesTask(this).execute();
 	}
 
 	private void initButton() {
@@ -128,26 +109,11 @@ public class QuoteListActivity extends Activity {
 
 		Quote quote = new Quote(strQuote, 0);
 
-		ContentValues contentValues = new ContentValues();
-		contentValues.put("strquote", quote.getStrQuote());
-		contentValues.put("creation_date", quote.getDate().getTime());
-		contentValues.put("rating", quote.getRating());
-
-		SQLiteDatabase db = databaseHelper.getWritableDatabase();
-		long id = db.insert("quotes", null, contentValues);
-		db.close();
-
-		if (id == 0) {
-			Toast.makeText(this, "Erreur lors de l'ajour de la quote", 5000)
-					.show();
-			return;
-		}
-
-		quote.setId(id);
-		quotes.add(quote);
-		quoteAdapter.notifyDataSetChanged();
+		new PostQuoteTask().execute(quote);
 
 		Toast.makeText(this, "Quote ajoutée", 5000).show();
+		
+		new GetQuotesTask(this).execute();
 	}
 
 	@Override
@@ -170,5 +136,14 @@ public class QuoteListActivity extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putSerializable("quotes", quotes);
 		super.onSaveInstanceState(outState);
+	}
+	
+	public void onQuotesLoaded(List<Quote> loadedQuotes) {
+		
+		quotes.clear();
+		quotes.addAll(loadedQuotes);
+		quoteAdapter.notifyDataSetChanged();
+		
+		Toast.makeText(this, "Quotes loaded !", 2000).show();
 	}
 }
